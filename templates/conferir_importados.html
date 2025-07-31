@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Conferir Jogos Importados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #3949ab;
+            --accent: #ffe066;
+            --accent-strong: #5fd17f;
+            --bg: #f4f7fa;
+            --white: #fff;
+            --border: #e2e5ed;
+            --text: #253053;
+            --success: #0e3820;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .container {
+            background: var(--white);
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 36px rgba(34, 49, 63, 0.09);
+            padding: 36px 42px;
+            animation: fadein 0.7s;
+        }
+        @keyframes fadein {
+            0% { opacity: 0; transform: translateY(20px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        h2, h3 {
+            color: var(--primary);
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            font-size: 1.06em;
+            margin-bottom: 18px;
+            background: #f7faff;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus {
+            border: 1.5px solid var(--primary-light);
+            outline: none;
+        }
+        button[type="submit"] {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 36px;
+            font-size: 1.08em;
+            border-radius: var(--radius);
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(34, 49, 63, 0.05);
+            transition: background 0.17s;
+        }
+        button[type="submit"]:hover {
+            background: var(--primary-light);
+        }
+        .flash-messages {
+            background: #e1f5e3;
+            color: #207a3d;
+            border: 1px solid #b7e1c0;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            margin-bottom: 22px;
+            font-size: 1.08em;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 16px;
+            margin-bottom: 20px;
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 2px 18px rgba(34, 49, 63, 0.05);
+        }
+        th, td {
+            border-bottom: 1px solid var(--border);
+            padding: 9px 13px;
+            text-align: left;
+        }
+        th {
+            background: #eef3fd;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.04em;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        /* Destaca o número de acertos */
+        .acertos {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .acertos-max {
+            background: var(--accent-strong);
+            color: var(--success);
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+        }
+        /* Destaca dezenas acertadas */
+        .acerto-num {
+            background: var(--accent);
+            color: var(--success);
+            font-weight: bold;
+            border-radius: 3px;
+            padding: 2px 7px;
+            margin: 2px 2px 2px 0;
+            display: inline-block;
+            font-size: 1.08em;
+            letter-spacing: 1px;
+            box-shadow: 0 1px 2px #ffe06633;
+        }
+        .dezena-num {
+            padding: 2px 7px;
+            margin: 2px 2px 2px 0;
+            display: inline-block;
+            font-size: 1.07em;
+            color: var(--text);
+            background: #f7faff;
+            border-radius: 3px;
+        }
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+            margin-right: 22px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: var(--primary);
+        }
+        @media (max-width: 750px) {
+            .container { padding: 18px 4vw; }
+            th, td { font-size: 0.99em; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 8px 2vw;}
+            h2, h3 { font-size: 1.1em;}
+            table { font-size: 0.94em;}
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Conferir Jogos Importados ({{ loteria }})</h2>
+    {% if mensagem %}
+        <div class="flash-messages">{{ mensagem }}</div>
+    {% endif %}
+    {% if jogos %}
+        <form method="post">
+            <label>Informe o resultado oficial (dezenas separadas por espaço, vírgula ou ponto-e-vírgula):</label>
+            <input type="text" name="resultado" required placeholder="Ex: 1 2 3 4 5 6">
+            <button type="submit">Conferir</button>
+        </form>
+        <h3>Jogos Importados</h3>
+        <table>
+            <tr>
+                <th>#</th><th>Dezenas</th>
+                {% if conferidos %}<th>Acertos</th>{% endif %}
+            </tr>
+            {% if conferidos %}
+                {% set max_acertos = conferidos | map(attribute=1) | max %}
+            {% endif %}
+            {% if resultado %}
+                {% set resultado_set = resultado|map('int')|list %}
+            {% endif %}
+            {% for jogo in jogos %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        {% for dezena in jogo[:qtd_dezenas] %}
+                            {% if resultado and (dezena in resultado) %}
+                                <span class="acerto-num">{{ dezena }}</span>
+                            {% else %}
+                                <span class="dezena-num">{{ dezena }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% if conferidos %}
+                        {% set acertos = conferidos[loop.index0][1] %}
+                        <td class="{% if acertos == max_acertos and acertos > 0 %}acertos-max{% elif acertos > 0 %}acertos{% endif %}">
+                            {{ acertos }}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+        {% if resultado %}
+            <h4>Resultado Oficial: {{ resultado }}</h4>
+        {% endif %}
+    {% endif %}
+    <a href="{{ url_for('importar') }}">Importar outros jogos</a> |
+    <a href="{{ url_for('index') }}">Voltar ao início</a>
+</div>
+</body>
+</html>

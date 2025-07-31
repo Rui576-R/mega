@@ -1,0 +1,78 @@
+/* Estilo geral */
+body {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+footer {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.list-group-item strong {
+    color: green;
+}
+
+/* Tema escuro */
+html[data-bs-theme='dark'] {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+html[data-bs-theme='dark'] body {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+html[data-bs-theme='dark'] .navbar {
+    background-color: #1f1f1f;
+}
+
+html[data-bs-theme='dark'] .card, 
+html[data-bs-theme='dark'] .list-group-item,
+html[data-bs-theme='dark'] .table,
+html[data-bs-theme='dark'] .alert,
+html[data-bs-theme='dark'] .form-control,
+html[data-bs-theme='dark'] .form-select {
+    background-color: #1f1f1f;
+    color: #f1f1f1;
+    border-color: #333;
+}
+
+html[data-bs-theme='dark'] .btn-primary {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+html[data-bs-theme='dark'] .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+html[data-bs-theme='dark'] .btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+html[data-bs-theme='dark'] .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+
+html[data-bs-theme='dark'] .bg-light {
+    background-color: #1f1f1f !important;
+    color: #f1f1f1 !important;
+}
+
+html[data-bs-theme='dark'] .table-primary {
+    background-color: #004085;
+    color: #fff;
+}
+
+html[data-bs-theme='dark'] .badge {
+    background-color: #28a745;
+}
+
+html[data-bs-theme='dark'] footer {
+    background-color: #1f1f1f;
+    color: #f1f1f1;
+}

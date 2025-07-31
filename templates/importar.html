@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Importar Jogos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: #f3f6fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .container {
+            background: #fff;
+            max-width: 520px;
+            margin: 40px auto 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.09);
+            padding: 32px 35px 32px 35px;
+        }
+        h2, h3 {
+            color: #0a357a;
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #0a357a;
+            font-weight: 500;
+        }
+        input[type="file"], select[name="loteria"] {
+            padding: 10px 0;
+            border: none;
+            background: none;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button[type="submit"] {
+            background: #0a357a;
+            color: #fff;
+            border: none;
+            padding: 11px 32px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 18px;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #1764c4;
+        }
+        .btn-add {
+            background: #1aaf5d;
+            color: #fff !important;
+            padding: 10px 22px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 16px;
+            font-weight: 600;
+            transition: background 0.23s;
+            border: none;
+        }
+        .btn-add:hover {
+            background: #19a150;
+        }
+        .flash-messages {
+            background: #e1f5e3;
+            color: #207a3d;
+            border: 1px solid #b7e1c0;
+            padding: 9px 13px;
+            border-radius: 5px;
+            margin-bottom: 22px;
+            font-size: 1.05em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+            margin-bottom: 16px;
+            background: #fbfcfe;
+        }
+        th, td {
+            border: 1px solid #e2e5ed;
+            padding: 7px 10px;
+            text-align: left;
+        }
+        th {
+            background: #eaf1fb;
+            color: #0a357a;
+            font-weight: 600;
+        }
+        a {
+            color: #0a357a;
+            text-decoration: none;
+            margin-right: 22px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 7px;
+            }
+            table, th, td {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Importar Jogos de Arquivo</h2>
+    {% if mensagem %}
+        <div class="flash-messages">{{ mensagem }}</div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <label for="loteria">Escolha a loteria:</label>
+        <select name="loteria" id="loteria" required>
+            {% for nome, conf in config_loterias.items() %}
+                <option value="{{ nome }}"
+                    {% if loteria_selecionada and loteria_selecionada == nome %}selected{% endif %}>
+                    {{ nome }}
+                </option>
+            {% endfor %}
+        </select>
+        <label>Selecione o arquivo (.txt, .csv, .json):</label>
+        <input type="file" name="arquivo" required>
+        <button type="submit">Importar</button>
+    </form>
+    {% if jogos %}
+        <h3>Jogos Importados:</h3>
+        <table>
+            <tr><th>#</th><th>Dezenas</th></tr>
+            {% for jogo in jogos %}
+                <tr>
+                  <td>{{ loop.index }}</td>
+                  <td>{{ jogo[:qtd_dezenas]|join(', ') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a class="btn-add" href="{{ url_for('conferir_importados') }}">Conferir Jogos Importados</a>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('index') }}">Voltar</a>
+</div>
+</body>
+</html>

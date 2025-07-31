@@ -1,0 +1,30 @@
+.
+├── app.py
+├── arquivos
+│   ├── Conferencia_Mega-Sena.pdf
+│   ├── Jogos_Mega-Sena.pdf
+│   └── Jogos_Mega-Sena.txt
+├── estrutura1.txt
+├── myenv
+│   ├── bin
+│   ├── include
+│   ├── lib
+│   ├── lib64 -> lib
+│   └── pyvenv.cfg
+├── static
+│   ├── css
+│   └── js
+├── templates
+│   ├── base.html
+│   ├── estatisticas.html
+│   ├── index.html
+│   └── resultado.html
+└── venv
+    ├── bin
+    ├── include
+    ├── lib
+    ├── lib64 -> lib
+    ├── pyvenv.cfg
+    └── share
+
+17 directories, 11 files

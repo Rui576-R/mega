@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center mt-4">🎯 Conferência dos Jogos - {{ loteria }}</h2>
+
+    <div class="alert alert-info">
+        <strong>Resultado Oficial:</strong> {{ resultado }}
+    </div>
+
+    <ul class="list-group">
+        {% for jogo, acertos in conferidos %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    Jogo {{ loop.index }}:
+                    {% for dezena in jogo %}
+                        {% if dezena in resultado %}
+                            <strong class="text-success">{{ dezena }}</strong>
+                        {% else %}
+                            {{ dezena }}
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="badge bg-success rounded-pill">
+                    {{ acertos }} acerto{{ 's' if acertos != 1 else '' }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-4 d-flex gap-2">
+        <a href="/" class="btn btn-primary">🔙 Voltar</a>
+    </div>
+
+    <hr>
+
+    <h4>📄 Exportar Resultado da Conferência:</h4>
+    <form method="POST" action="/exportar_conferencia" class="d-flex gap-2 flex-wrap">
+        <input type="hidden" name="loteria" value="{{ loteria }}">
+        <input type="hidden" name="resultado" value="{{ resultado }}">
+        {% for jogo, acertos in conferidos %}
+            <input type="hidden" name="conferidos" value="{{ jogo }}|{{ acertos }}">
+        {% endfor %}
+        <select class="form-select w-auto" name="formato" required>
+            <option value="txt">TXT</option>
+            <option value="json">JSON</option>
+            <option value="excel">Excel</option>
+            <option value="pdf">PDF</option>
+        </select>
+        <button class="btn btn-warning" type="submit">Exportar Conferência</button>
+    </form>
+
+</div>
+
+{% endblock %}
