@@ -3,7 +3,7 @@ self.addEventListener('install', function(event) {
     caches.open('oficina-cache-v1').then(function(cache) {
       return cache.addAll([
         '/',
-        '/static/oficina-icon.png',
+        '/static/mega-icon.png',
         '/static/manifest.json'
         // Adicione aqui outras rotas ou arquivos importantes que deseja cachear
       ]);
