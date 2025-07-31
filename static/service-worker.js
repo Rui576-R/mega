@@ -1,6 +1,6 @@
 self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open('oficina-cache-v1').then(function(cache) {
+    caches.open('mega-cache-v1').then(function(cache) {
       return cache.addAll([
         '/',
         '/static/mega-icon.png',
